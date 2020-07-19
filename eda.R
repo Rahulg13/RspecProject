@@ -12,13 +12,23 @@ x <- x[y]
 
 
 # trying the tm package
-corpus1 <- VCorpus(VectorSource(readLines(con1)), readerControl = list(dbControl = TRUE))
-dtm1 <- DocumentTermMatrix(corpus1)
+corpus1 <- Corpus(VectorSource(readLines(con1)))
+close(con1)
+corpus1 <- tm_map(corpus1, content_transformer(tolower))
+corpus1 <- tm_map(corpus1, FUN = removePunctuation)
+corpus1 <- tm_map(corpus1, FUN = removeWords, stopwords(kind = "en"))
+corpus1 <- tm_map(corpus1, FUN = stemDocument)
+corpus1 <- tm_map(corpus1, FUN = stripWhitespace)
 
-corp_update <- tm_map(corpus1, content_transformer(tolower))
-corp_update <- tm_map(corp_update, FUN = removePunctuation)
-corp_update <- tm_map(corp_update, FUN = stemDocument)
-dtm2 <- DocumentTermMatrix(corp_update)
+
+dtm1 <- DocumentTermMatrix(corpus1)
+dtm <- removeSparseTerms(dtm, 0.998)
+mat <- as.matrix(dtm)
+
+
+wordfreq <- colSums(mat)
+#shows all terms with frequency above 1000
+dtm[findFreqTerms(dtm3, 1000)]
 
 
 corpus2 <- Corpus(DirSource("data1/"), readerControl = list(reader = readPlain))
