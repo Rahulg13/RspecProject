@@ -13,7 +13,13 @@ x <- x[y]
 
 # trying the tm package
 corpus1 <- VCorpus(VectorSource(readLines(con1)), readerControl = list(dbControl = TRUE))
-dtm1 <- DocumentTermMatrix(corpus1, control = list(dbControl = TRUE) )
+dtm1 <- DocumentTermMatrix(corpus1)
+
+corp_update <- tm_map(corpus1, content_transformer(tolower))
+corp_update <- tm_map(corp_update, FUN = removePunctuation)
+corp_update <- tm_map(corp_update, FUN = stemDocument)
+dtm2 <- DocumentTermMatrix(corp_update)
+
 
 corpus2 <- Corpus(DirSource("data1/"), readerControl = list(reader = readPlain))
 dtm2 <- DocumentTermMatrix(corpus2)
