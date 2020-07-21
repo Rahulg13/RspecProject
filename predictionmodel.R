@@ -22,6 +22,40 @@ wordfreq3 <- wordfreq3 %>% mutate(gram3a = gram3[,1], gram3b = gram3[,2], gram3c
 
 # no cutting required for 1-gram, simply use max likelihood model
 # x input is a word 
-predict1 <- function(x) {
-        
+predict3 <- function(x) {
+        x1 <- unlist(strsplit(x, " "))
+        l <- length(x1)
+
+        if (any(wordfreq3$gram3b == x1[l] & wordfreq3$gram3a == x1[l-1]) == FALSE)
+                {
+                predict2(x)
+        }
+        else 
+                {
+                pos <- which(wordfreq3$gram3b == x1[l] & wordfreq3$gram3a == x1[l-1])
+        }
 }
+
+
+predict2 <- function(x) {
+        x1 <- unlist(strsplit(x, " "))
+        l <- length(x1)
+        
+        if (any(wordfreq2$gram2a == x1[l]) == FALSE)
+        {
+                predict1(x)
+        }
+        else 
+        {
+                pos <- which(wordfreq2$gram2a == x1[l])
+                mini <- wordfreq2[pos, ]
+                pos <- sort.list(mini[,1])
+                mini <- mini[pos, ]
+                mini[1:3, 3]
+        }
+}
+
+
+predict1 <- function(x) { 
+        wordfreq[1:3, 2]
+        }
