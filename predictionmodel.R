@@ -33,6 +33,10 @@ predict3 <- function(x) {
         else 
                 {
                 pos <- which(wordfreq3$gram3b == x1[l] & wordfreq3$gram3a == x1[l-1])
+                mini <- wordfreq3[pos, ]
+                pos <- sort.list(mini[,1])
+                mini <- mini[pos, ]
+                mini[1:3, 4]
         }
 }
 
