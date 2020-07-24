@@ -24,6 +24,6 @@ l <- length(readLines(con1))
 #Sampling of data using rbinom
 select <- rbinom(l, 1, 0.05)
 select <- (select == 1)
-writeLines(data1, con2)
+writeLines(data1[select], con2)
 
 #Connection Close, Any reading of data above it, all processing below it
